@@ -38,9 +38,15 @@
             this.cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureModeButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureStaticMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureDynamicMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoModeButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.fpsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fpsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.staticToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoStatic30FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoStatic60FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dynamicToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoDynamic30FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoDynamic60FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -110,34 +116,81 @@
             // 
             // pictureModeButton
             // 
+            this.pictureModeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pictureStaticMenuItem,
+            this.pictureDynamicMenuItem});
             this.pictureModeButton.Name = "pictureModeButton";
-            this.pictureModeButton.Size = new System.Drawing.Size(111, 22);
+            this.pictureModeButton.Size = new System.Drawing.Size(152, 22);
             this.pictureModeButton.Text = "Picture";
-            this.pictureModeButton.Click += new System.EventHandler(this.pictureModeButton_Click);
+            // 
+            // pictureStaticMenuItem
+            // 
+            this.pictureStaticMenuItem.Name = "pictureStaticMenuItem";
+            this.pictureStaticMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureStaticMenuItem.Text = "Static";
+            this.pictureStaticMenuItem.Click += new System.EventHandler(this.pictureStaticMenuItem_Click);
+            // 
+            // pictureDynamicMenuItem
+            // 
+            this.pictureDynamicMenuItem.Name = "pictureDynamicMenuItem";
+            this.pictureDynamicMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureDynamicMenuItem.Text = "Dynamic";
+            this.pictureDynamicMenuItem.Click += new System.EventHandler(this.pictureDynamicMenuItem_Click);
             // 
             // videoModeButton
             // 
             this.videoModeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fpsToolStripMenuItem,
-            this.fpsToolStripMenuItem1});
+            this.staticToolStripMenuItem1,
+            this.dynamicToolStripMenuItem1});
             this.videoModeButton.Name = "videoModeButton";
-            this.videoModeButton.Size = new System.Drawing.Size(111, 22);
+            this.videoModeButton.Size = new System.Drawing.Size(152, 22);
             this.videoModeButton.Text = "Video";
-            this.videoModeButton.Click += new System.EventHandler(this.videoModeButton_Click);
             // 
-            // fpsToolStripMenuItem
+            // staticToolStripMenuItem1
             // 
-            this.fpsToolStripMenuItem.Name = "fpsToolStripMenuItem";
-            this.fpsToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.fpsToolStripMenuItem.Text = "60 fps";
-            this.fpsToolStripMenuItem.Click += new System.EventHandler(this.fpsToolStripMenuItem_Click);
+            this.staticToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.videoStatic30FPSMenuItem,
+            this.videoStatic60FPSMenuItem});
+            this.staticToolStripMenuItem1.Name = "staticToolStripMenuItem1";
+            this.staticToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.staticToolStripMenuItem1.Text = "Static";
             // 
-            // fpsToolStripMenuItem1
+            // videoStatic30FPSMenuItem
             // 
-            this.fpsToolStripMenuItem1.Name = "fpsToolStripMenuItem1";
-            this.fpsToolStripMenuItem1.Size = new System.Drawing.Size(105, 22);
-            this.fpsToolStripMenuItem1.Text = "30 fps";
-            this.fpsToolStripMenuItem1.Click += new System.EventHandler(this.fpsToolStripMenuItem1_Click);
+            this.videoStatic30FPSMenuItem.Name = "videoStatic30FPSMenuItem";
+            this.videoStatic30FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoStatic30FPSMenuItem.Text = "30 fps";
+            this.videoStatic30FPSMenuItem.Click += new System.EventHandler(this.videoStatic30FPSMenuItem_Click);
+            // 
+            // videoStatic60FPSMenuItem
+            // 
+            this.videoStatic60FPSMenuItem.Name = "videoStatic60FPSMenuItem";
+            this.videoStatic60FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoStatic60FPSMenuItem.Text = "60 fps";
+            this.videoStatic60FPSMenuItem.Click += new System.EventHandler(this.videoStatic60FPSMenuItem_Click);
+            // 
+            // dynamicToolStripMenuItem1
+            // 
+            this.dynamicToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.videoDynamic30FPSMenuItem,
+            this.videoDynamic60FPSMenuItem});
+            this.dynamicToolStripMenuItem1.Name = "dynamicToolStripMenuItem1";
+            this.dynamicToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.dynamicToolStripMenuItem1.Text = "Dynamic";
+            // 
+            // videoDynamic30FPSMenuItem
+            // 
+            this.videoDynamic30FPSMenuItem.Name = "videoDynamic30FPSMenuItem";
+            this.videoDynamic30FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoDynamic30FPSMenuItem.Text = "30 fps";
+            this.videoDynamic30FPSMenuItem.Click += new System.EventHandler(this.videoDynamic30FPSMenuItem_Click);
+            // 
+            // videoDynamic60FPSMenuItem
+            // 
+            this.videoDynamic60FPSMenuItem.Name = "videoDynamic60FPSMenuItem";
+            this.videoDynamic60FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoDynamic60FPSMenuItem.Text = "60 fps";
+            this.videoDynamic60FPSMenuItem.Click += new System.EventHandler(this.videoDynamic60FPSMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -167,6 +220,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
@@ -181,6 +235,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ScreenCapture";
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -207,8 +262,14 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ToolStripMenuItem fpsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fpsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem pictureStaticMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pictureDynamicMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem staticToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem videoStatic30FPSMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem videoStatic60FPSMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dynamicToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem videoDynamic30FPSMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem videoDynamic60FPSMenuItem;
 
 
     }

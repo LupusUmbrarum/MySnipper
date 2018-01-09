@@ -15,8 +15,10 @@ namespace testCamera
 {
     enum CaptureMode
     {
-        PICTURE,
-        VIDEO
+        PICTURE_STATIC, //this CaptureMode captures the image, and leaves it alone
+        PICTURE_DYNAMIC, //this CaptureMode captures the image, but makes the image fill the form; stretching to fit the form as the form changes
+        VIDEO_STATIC, //video version of PICTURE_STATIC
+        VIDEO_DYNAMIC //video version of PICTURE_DYNAMIC
     }
 
     public partial class Form1 : Form
@@ -36,7 +38,7 @@ namespace testCamera
             useSelectedArea = false;
             leftClickDown = false;
             //default mode
-            currentMode = CaptureMode.PICTURE;
+            currentMode = CaptureMode.PICTURE_STATIC;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -59,9 +61,21 @@ namespace testCamera
                 minimize();
                 pictureBox1.Visible = true;
                 pictureBox1.Size = new Size(rect.Width, rect.Height);
-                this.Size = new Size(rect.Width + rect.Width/2, rect.Height + rect.Height/2);
-                pictureBox1.Location = new Point(this.ClientSize.Width/2 - rect.Width/2, 12 + this.ClientSize.Height/2 - rect.Height/2);                
-                setBackground();
+                if(currentMode == CaptureMode.VIDEO_STATIC || currentMode == CaptureMode.PICTURE_STATIC)
+                {
+                    this.Size = new Size(rect.Width + rect.Width / 2, rect.Height + rect.Height / 2);
+                    positionPictureBox(0);
+                }
+                else
+                {
+                    positionPictureBox(1);
+                }
+
+                if(currentMode == CaptureMode.VIDEO_DYNAMIC || currentMode == CaptureMode.VIDEO_STATIC)
+                {
+                    timer1.Start();
+                }
+                captureImage();
                 this.Location = new Point(rect.X, rect.Y);
                 //minimize();
             }
@@ -84,31 +98,31 @@ namespace testCamera
             this.Opacity = 1.0;
         }
 
-        private void setBackground()
+        private void captureImage()
         {
             switch(currentMode)
             {
-                case CaptureMode.VIDEO:
+                case CaptureMode.VIDEO_STATIC:
+                case CaptureMode.VIDEO_DYNAMIC:
                     try
                     {
                         bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                         using (Graphics g = Graphics.FromImage(bm))
                         {
                             g.CopyFromScreen(rect.X, rect.Y, 0, 0, bm.Size);
-                            this.BackgroundImage = bm;
                             pictureBox1.Image = bm;
                         }
                     }
                     catch (Exception ex) { }
                     break;
-                case CaptureMode.PICTURE:
+                case CaptureMode.PICTURE_STATIC:
+                case CaptureMode.PICTURE_DYNAMIC:
                     try
                     {
                         bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                         using (Graphics g = Graphics.FromImage(bm))
                         {
                             g.CopyFromScreen(rect.X, rect.Y, 0, 0, bm.Size);
-                            //this.BackgroundImage = bm;
                             pictureBox1.Image = bm;
                         }
                     }
@@ -119,7 +133,10 @@ namespace testCamera
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            
+            if(currentMode == CaptureMode.PICTURE_STATIC || currentMode == CaptureMode.VIDEO_STATIC)
+            {
+                positionPictureBox(0);
+            }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,18 +164,6 @@ namespace testCamera
                 pictureBox1.Visible = true;
         }
 
-        private void pictureModeButton_Click(object sender, EventArgs e)
-        {
-            currentMode = CaptureMode.PICTURE;
-            timer1.Stop();
-        }
-
-        private void videoModeButton_Click(object sender, EventArgs e)
-        {
-            currentMode = CaptureMode.VIDEO;
-            timer1.Start();
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
 
@@ -176,38 +181,93 @@ namespace testCamera
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            setBackground();
-        }
-
-        private void fpsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                timer1.Stop();
-            }
-            catch (Exception ex) { }
-            timer1.Interval = 17;
-            timer1.Start();
-        }
-
-        private void fpsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                timer1.Stop();
-            }
-            catch (Exception ex) { }
-            timer1.Interval = 33;
-            timer1.Start();
+            captureImage();
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if(leftClickDown && isCapturing)
+            if(isCapturing && leftClickDown)
             {
-
+                this.Refresh();
             }
-                
+        }
+
+        private void pictureDynamicMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.PICTURE_DYNAMIC;
+            pictureBox1.Dock = DockStyle.Fill;
+            positionPictureBox(1);
+        }
+
+        private void pictureStaticMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.PICTURE_STATIC;
+            pictureBox1.Dock = DockStyle.None;
+            positionPictureBox(0);
+        }
+
+        private void videoStatic30FPSMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.VIDEO_STATIC;
+            pictureBox1.Dock = DockStyle.None;
+            timer1.Interval = 17;
+            positionPictureBox(0);
+        }
+
+        private void videoStatic60FPSMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.VIDEO_STATIC;
+            pictureBox1.Dock = DockStyle.None;
+            timer1.Interval = 33;
+            positionPictureBox(0);
+        }
+
+        private void videoDynamic30FPSMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.VIDEO_DYNAMIC;
+            pictureBox1.Dock = DockStyle.Fill;
+            timer1.Interval = 17;
+            positionPictureBox(1);
+        }
+
+        private void videoDynamic60FPSMenuItem_Click(object sender, EventArgs e)
+        {
+            currentMode = CaptureMode.VIDEO_DYNAMIC;
+            pictureBox1.Dock = DockStyle.Fill;
+            timer1.Interval = 33;
+            positionPictureBox(1);
+        }
+
+        private void positionPictureBox(int positionChoice)
+        {
+            switch(positionChoice)
+            {
+                // default location. This is used for static picture or video options
+                case 0:
+                    pictureBox1.Location = new Point(this.ClientSize.Width / 2 - rect.Width / 2, 12 + this.ClientSize.Height / 2 - rect.Height / 2);
+                    break;
+                // location when using dynamic picture or video options
+                case 1:
+                    pictureBox1.Location = new Point(0, 24);
+                    break;
+            }
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            if (leftClickDown && isCapturing)
+            {
+                Rectangle ee = new Rectangle(startPoint.X, startPoint.Y, Cursor.Position.X - startPoint.X, Cursor.Position.Y - startPoint.Y);
+                using (Pen pen = new Pen(Color.Red, 1))
+                {
+                    e.Graphics.DrawRectangle(pen, ee);
+                }
+            }
         }
     }
 }
