@@ -39,11 +39,11 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureModeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.videoModeButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.fpsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fpsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.fpsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fpsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -62,26 +62,26 @@
             // saveButton
             // 
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(152, 22);
+            this.saveButton.Size = new System.Drawing.Size(114, 22);
             this.saveButton.Text = "Save";
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // saveAsButton
             // 
             this.saveAsButton.Name = "saveAsButton";
-            this.saveAsButton.Size = new System.Drawing.Size(152, 22);
+            this.saveAsButton.Size = new System.Drawing.Size(114, 22);
             this.saveAsButton.Text = "Save As";
             this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
             // 
             // quitButton
             // 
             this.quitButton.Name = "quitButton";
-            this.quitButton.Size = new System.Drawing.Size(152, 22);
+            this.quitButton.Size = new System.Drawing.Size(114, 22);
             this.quitButton.Text = "Exit";
             this.quitButton.Click += new System.EventHandler(this.quitButton_Click);
             // 
@@ -121,9 +121,23 @@
             this.fpsToolStripMenuItem,
             this.fpsToolStripMenuItem1});
             this.videoModeButton.Name = "videoModeButton";
-            this.videoModeButton.Size = new System.Drawing.Size(152, 22);
+            this.videoModeButton.Size = new System.Drawing.Size(111, 22);
             this.videoModeButton.Text = "Video";
             this.videoModeButton.Click += new System.EventHandler(this.videoModeButton_Click);
+            // 
+            // fpsToolStripMenuItem
+            // 
+            this.fpsToolStripMenuItem.Name = "fpsToolStripMenuItem";
+            this.fpsToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.fpsToolStripMenuItem.Text = "60 fps";
+            this.fpsToolStripMenuItem.Click += new System.EventHandler(this.fpsToolStripMenuItem_Click);
+            // 
+            // fpsToolStripMenuItem1
+            // 
+            this.fpsToolStripMenuItem1.Name = "fpsToolStripMenuItem1";
+            this.fpsToolStripMenuItem1.Size = new System.Drawing.Size(105, 22);
+            this.fpsToolStripMenuItem1.Text = "30 fps";
+            this.fpsToolStripMenuItem1.Click += new System.EventHandler(this.fpsToolStripMenuItem1_Click);
             // 
             // menuStrip1
             // 
@@ -147,27 +161,12 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(552, 426);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
-            // 
-            // fpsToolStripMenuItem
-            // 
-            this.fpsToolStripMenuItem.Name = "fpsToolStripMenuItem";
-            this.fpsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.fpsToolStripMenuItem.Text = "60 fps";
-            this.fpsToolStripMenuItem.Click += new System.EventHandler(this.fpsToolStripMenuItem_Click);
-            // 
-            // fpsToolStripMenuItem1
-            // 
-            this.fpsToolStripMenuItem1.Name = "fpsToolStripMenuItem1";
-            this.fpsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.fpsToolStripMenuItem1.Text = "30 fps";
-            this.fpsToolStripMenuItem1.Click += new System.EventHandler(this.fpsToolStripMenuItem1_Click);
             // 
             // Form1
             // 

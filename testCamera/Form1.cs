@@ -58,8 +58,11 @@ namespace testCamera
                 rect = new Rectangle(new Point((startPoint.X > endPoint.X ? endPoint.X : startPoint.X), (startPoint.Y > endPoint.Y ? endPoint.Y : startPoint.Y)), new Size(Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y)));
                 minimize();
                 pictureBox1.Visible = true;
-                this.ClientSize = new Size(rect.Width, rect.Height);
+                pictureBox1.Size = new Size(rect.Width, rect.Height);
+                this.Size = new Size(rect.Width + rect.Width/2, rect.Height + rect.Height/2);
+                pictureBox1.Location = new Point(this.ClientSize.Width/2 - rect.Width/2, 12 + this.ClientSize.Height/2 - rect.Height/2);                
                 setBackground();
+                this.Location = new Point(rect.X, rect.Y);
                 //minimize();
             }
             leftClickDown = false;
@@ -67,6 +70,7 @@ namespace testCamera
 
         private void maximizeForSelection()
         {
+            this.Location = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Opacity = 0.5;
             this.WindowState = FormWindowState.Maximized;
@@ -104,7 +108,7 @@ namespace testCamera
                         using (Graphics g = Graphics.FromImage(bm))
                         {
                             g.CopyFromScreen(rect.X, rect.Y, 0, 0, bm.Size);
-                            this.BackgroundImage = bm;
+                            //this.BackgroundImage = bm;
                             pictureBox1.Image = bm;
                         }
                     }
