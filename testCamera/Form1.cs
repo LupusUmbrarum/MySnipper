@@ -61,9 +61,10 @@ namespace testCamera
                 minimize();
                 pictureBox1.Visible = true;
                 pictureBox1.Size = new Size(rect.Width, rect.Height);
+
                 if(currentMode == CaptureMode.VIDEO_STATIC || currentMode == CaptureMode.PICTURE_STATIC)
                 {
-                    this.Size = new Size(rect.Width + rect.Width / 2, rect.Height + rect.Height / 2);
+                    this.Size = new Size((rect.Width < 275 ? 275 : rect.Width + rect.Width / 2), (rect.Height < 72 ? 144 : rect.Height + rect.Height / 2));
                     positionPictureBox(0);
                 }
                 else
@@ -75,6 +76,7 @@ namespace testCamera
                 {
                     timer1.Start();
                 }
+
                 captureImage();
                 this.Location = new Point(rect.X, rect.Y);
                 //minimize();
@@ -262,7 +264,7 @@ namespace testCamera
         {
             if (leftClickDown && isCapturing)
             {
-                Rectangle ee = new Rectangle(startPoint.X, startPoint.Y, Cursor.Position.X - startPoint.X, Cursor.Position.Y - startPoint.Y);
+                Rectangle ee = new Rectangle((Cursor.Position.X > startPoint.X ? startPoint.X : Cursor.Position.X), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
                 using (Pen pen = new Pen(Color.Red, 1))
                 {
                     e.Graphics.DrawRectangle(pen, ee);
