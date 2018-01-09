@@ -1,0 +1,12 @@
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\bin\Debug\testCamera.exe.config
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\bin\Debug\testCamera.exe
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\bin\Debug\testCamera.pdb
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.csprojResolveAssemblyReference.cache
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.Form1.resources
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.Properties.Resources.resources
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.csproj.GenerateResource.Cache
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.exe
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.pdb
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\Interop.InteropExtensionLib.dll
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\Interop.SystemMonitor.dll
+C:\Users\lupus_000\Documents\Visual Studio 2013\Projects\testCamera\testCamera\obj\Debug\testCamera.csproj.ResolveComReference.cache
