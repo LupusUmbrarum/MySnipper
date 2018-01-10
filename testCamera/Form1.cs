@@ -81,7 +81,6 @@ namespace testCamera
                 minimize();
                 this.Location = new Point(rect.X, rect.Y);
                 this.TopMost = false;
-                
             }
             
             leftClickDown = false;
@@ -114,7 +113,6 @@ namespace testCamera
             
             this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
             this.Location = farthestLeftScreen.Bounds.Location;
-            //this.Width = tempWidth;
             
             useSelectedArea = true;
         }
@@ -194,7 +192,8 @@ namespace testCamera
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);//gets the folder path to pictures
+            bm.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)+"\\test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
         private void saveAsButton_Click(object sender, EventArgs e)
@@ -225,6 +224,11 @@ namespace testCamera
             currentMode = CaptureMode.PICTURE_DYNAMIC;
             pictureBox1.Dock = DockStyle.Fill;
             positionPictureBox(1);
+            try
+            {
+                timer1.Stop();
+            }
+            catch (Exception ex) { }
         }
 
         private void pictureStaticMenuItem_Click(object sender, EventArgs e)
@@ -232,6 +236,11 @@ namespace testCamera
             currentMode = CaptureMode.PICTURE_STATIC;
             pictureBox1.Dock = DockStyle.None;
             positionPictureBox(0);
+            try
+            {
+                timer1.Stop();
+            }
+            catch (Exception ex) { }
         }
 
         private void videoStatic30FPSMenuItem_Click(object sender, EventArgs e)
@@ -239,6 +248,10 @@ namespace testCamera
             currentMode = CaptureMode.VIDEO_STATIC;
             pictureBox1.Dock = DockStyle.None;
             timer1.Interval = 32;
+            if(rect != null)
+            {
+                timer1.Start();
+            }
             positionPictureBox(0);
         }
 
@@ -247,6 +260,10 @@ namespace testCamera
             currentMode = CaptureMode.VIDEO_STATIC;
             pictureBox1.Dock = DockStyle.None;
             timer1.Interval = 16;
+            if (rect != null)
+            {
+                timer1.Start();
+            }
             positionPictureBox(0);
         }
 
@@ -255,6 +272,10 @@ namespace testCamera
             currentMode = CaptureMode.VIDEO_DYNAMIC;
             pictureBox1.Dock = DockStyle.Fill;
             timer1.Interval = 32;
+            if (rect != null)
+            {
+                timer1.Start();
+            }
             positionPictureBox(1);
         }
 
@@ -263,6 +284,10 @@ namespace testCamera
             currentMode = CaptureMode.VIDEO_DYNAMIC;
             pictureBox1.Dock = DockStyle.Fill;
             timer1.Interval = 16;
+            if (rect != null)
+            {
+                timer1.Start();
+            }
             positionPictureBox(1);
         }
 
@@ -279,11 +304,6 @@ namespace testCamera
                     pictureBox1.Location = new Point(0, 24);
                     break;
             }
-        }
-
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
