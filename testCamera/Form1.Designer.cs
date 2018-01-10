@@ -126,14 +126,14 @@
             // pictureStaticMenuItem
             // 
             this.pictureStaticMenuItem.Name = "pictureStaticMenuItem";
-            this.pictureStaticMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureStaticMenuItem.Size = new System.Drawing.Size(121, 22);
             this.pictureStaticMenuItem.Text = "Static";
             this.pictureStaticMenuItem.Click += new System.EventHandler(this.pictureStaticMenuItem_Click);
             // 
             // pictureDynamicMenuItem
             // 
             this.pictureDynamicMenuItem.Name = "pictureDynamicMenuItem";
-            this.pictureDynamicMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureDynamicMenuItem.Size = new System.Drawing.Size(121, 22);
             this.pictureDynamicMenuItem.Text = "Dynamic";
             this.pictureDynamicMenuItem.Click += new System.EventHandler(this.pictureDynamicMenuItem_Click);
             // 
@@ -158,14 +158,14 @@
             // videoStatic30FPSMenuItem
             // 
             this.videoStatic30FPSMenuItem.Name = "videoStatic30FPSMenuItem";
-            this.videoStatic30FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoStatic30FPSMenuItem.Size = new System.Drawing.Size(105, 22);
             this.videoStatic30FPSMenuItem.Text = "30 fps";
             this.videoStatic30FPSMenuItem.Click += new System.EventHandler(this.videoStatic30FPSMenuItem_Click);
             // 
             // videoStatic60FPSMenuItem
             // 
             this.videoStatic60FPSMenuItem.Name = "videoStatic60FPSMenuItem";
-            this.videoStatic60FPSMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.videoStatic60FPSMenuItem.Size = new System.Drawing.Size(105, 22);
             this.videoStatic60FPSMenuItem.Text = "60 fps";
             this.videoStatic60FPSMenuItem.Click += new System.EventHandler(this.videoStatic60FPSMenuItem_Click);
             // 
@@ -270,8 +270,6 @@
         private System.Windows.Forms.ToolStripMenuItem dynamicToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem videoDynamic30FPSMenuItem;
         private System.Windows.Forms.ToolStripMenuItem videoDynamic60FPSMenuItem;
-
-
     }
 }
 

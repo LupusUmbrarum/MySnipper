@@ -58,7 +58,7 @@ namespace testCamera
                 isCapturing = false;
                 useSelectedArea = true;
                 rect = new Rectangle(new Point((startPoint.X > endPoint.X ? endPoint.X : startPoint.X), (startPoint.Y > endPoint.Y ? endPoint.Y : startPoint.Y)), new Size(Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y)));
-                minimize();
+                
                 pictureBox1.Visible = true;
                 pictureBox1.Size = new Size(rect.Width, rect.Height);
 
@@ -78,18 +78,44 @@ namespace testCamera
                 }
 
                 captureImage();
+                minimize();
                 this.Location = new Point(rect.X, rect.Y);
-                //minimize();
+                this.TopMost = false;
+                
             }
+            
             leftClickDown = false;
         }
 
         private void maximizeForSelection()
         {
-            this.Location = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.TopMost = true;
             this.Opacity = 0.5;
-            this.WindowState = FormWindowState.Maximized;
+
+            //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
+            Screen farthestLeftScreen = Screen.PrimaryScreen;
+            if(Screen.AllScreens.Count() > 1)
+            {
+                for (int x = 0; x < Screen.AllScreens.Count(); x++)
+                {
+                    this.Width += Screen.AllScreens[x].Bounds.Width + 10;//tempWidth += Screen.AllScreens[x].Bounds.Width;
+                    if (Screen.AllScreens[x].Bounds.Location.X < 0)
+                    {
+                        farthestLeftScreen = Screen.AllScreens[x];
+                    }
+                }
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.Location = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            }
+            
+            this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
+            this.Location = farthestLeftScreen.Bounds.Location;
+            //this.Width = tempWidth;
+            
             useSelectedArea = true;
         }
 
@@ -212,7 +238,7 @@ namespace testCamera
         {
             currentMode = CaptureMode.VIDEO_STATIC;
             pictureBox1.Dock = DockStyle.None;
-            timer1.Interval = 17;
+            timer1.Interval = 32;
             positionPictureBox(0);
         }
 
@@ -220,7 +246,7 @@ namespace testCamera
         {
             currentMode = CaptureMode.VIDEO_STATIC;
             pictureBox1.Dock = DockStyle.None;
-            timer1.Interval = 33;
+            timer1.Interval = 16;
             positionPictureBox(0);
         }
 
@@ -228,7 +254,7 @@ namespace testCamera
         {
             currentMode = CaptureMode.VIDEO_DYNAMIC;
             pictureBox1.Dock = DockStyle.Fill;
-            timer1.Interval = 17;
+            timer1.Interval = 32;
             positionPictureBox(1);
         }
 
@@ -236,7 +262,7 @@ namespace testCamera
         {
             currentMode = CaptureMode.VIDEO_DYNAMIC;
             pictureBox1.Dock = DockStyle.Fill;
-            timer1.Interval = 33;
+            timer1.Interval = 16;
             positionPictureBox(1);
         }
 
