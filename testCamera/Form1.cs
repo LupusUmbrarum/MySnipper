@@ -23,8 +23,9 @@ namespace testCamera
 
     public partial class Form1 : Form
     {
+        int offset;
         Camera cam;
-        Point startPoint, endPoint;
+        Point startPoint, endPoint, deltaPoint;
         bool isCapturing, useSelectedArea, leftClickDown;
         Bitmap bm;
         Rectangle rect, selectionBox;
@@ -46,6 +47,16 @@ namespace testCamera
             if(isCapturing)
             {
                 startPoint = MousePosition;
+                deltaPoint = MousePosition;
+                highlightTimer.Start();
+                offset = 0;
+                foreach (Screen x in Screen.AllScreens)
+                {
+                    if ((x.Bounds.Location.X < startPoint.X && (x.Bounds.Width + x.Bounds.Location.X) > startPoint.X))
+                    {
+                        offset = x.Bounds.Width;
+                    }
+                }
             }
             leftClickDown = true;
         }
@@ -79,18 +90,33 @@ namespace testCamera
 
                 captureImage();
                 minimize();
+
                 this.Location = new Point(rect.X, rect.Y);
                 this.TopMost = false;
+                highlightTimer.Stop();
             }
             
             leftClickDown = false;
         }
 
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isCapturing && leftClickDown)
+            {
+                
+            }
+        }
+
+        /// <summary>
+        /// Maximize the form to cover all screens, including the taskbar, in order to take a picture
+        /// </summary>
         private void maximizeForSelection()
         {
+            //This sets up the form to be maximized. It removes the border, and makes the form overlap all things, even the taskbar
+            //It also sets the opacity to 50%, so as to facilitate better image capturing
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.TopMost = true;
-            this.Opacity = 0.5;
+            //this.Opacity = 0.5;
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
@@ -104,6 +130,8 @@ namespace testCamera
                         farthestLeftScreen = Screen.AllScreens[x];
                     }
                 }
+                this.Location = farthestLeftScreen.Bounds.Location;
+                this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
             }
             else
             {
@@ -111,12 +139,12 @@ namespace testCamera
                 this.Location = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             }
             
-            this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
-            this.Location = farthestLeftScreen.Bounds.Location;
-            
             useSelectedArea = true;
         }
 
+        /// <summary>
+        /// This puts the form back in its default state
+        /// </summary>
         private void minimize()
         {
             this.WindowState = FormWindowState.Normal;
@@ -124,6 +152,9 @@ namespace testCamera
             this.Opacity = 1.0;
         }
 
+        /// <summary>
+        /// Capture image based on highlighted area. Should only be called after an area has been selected
+        /// </summary>
         private void captureImage()
         {
             switch(currentMode)
@@ -145,6 +176,10 @@ namespace testCamera
                 case CaptureMode.PICTURE_DYNAMIC:
                     try
                     {
+                        //this is a bit of a hack. The form would be visible in pictures, but not videos if you tried to capture the wrong area.
+                        //It never happened for video capture. This would be a case of "don't touch it, it works"
+                        this.Location = new Point(10000, 10000);
+
                         bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                         using (Graphics g = Graphics.FromImage(bm))
                         {
@@ -172,6 +207,7 @@ namespace testCamera
                 timer1.Stop();
             }
             catch (Exception ex) { }
+            bm = null;
             this.BackgroundImage = null;
             maximizeForSelection();
             isCapturing = true;
@@ -211,11 +247,12 @@ namespace testCamera
             captureImage();
         }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        private void highlightTimer_Tick(object sender, EventArgs e)
         {
-            if(isCapturing && leftClickDown)
+            if(Math.Abs(deltaPoint.X - Cursor.Position.X) > 1 || Math.Abs(deltaPoint.Y - Cursor.Position.Y) > 1)
             {
                 this.Refresh();
+                deltaPoint = Cursor.Position;
             }
         }
 
@@ -310,12 +347,18 @@ namespace testCamera
         {
             if (leftClickDown && isCapturing)
             {
-                Rectangle ee = new Rectangle((Cursor.Position.X > startPoint.X ? startPoint.X : Cursor.Position.X), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+                testToolStripMenuItem.Text = Cursor.Position.ToString();
+                test2ToolStripMenuItem.Text = startPoint.ToString();
+                cancelToolStripMenuItem.Text = offset.ToString();
+                
+                Rectangle ee = new Rectangle((/*Cursor.Position.X < startPoint.X + offset ? */startPoint.X + offset/* : Cursor.Position.X*/), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+
                 using (Pen pen = new Pen(Color.Red, 1))
                 {
                     e.Graphics.DrawRectangle(pen, ee);
                 }
             }
         }
+
     }
 }

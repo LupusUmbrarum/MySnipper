@@ -50,6 +50,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.highlightTimer = new System.Windows.Forms.Timer(this.components);
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -120,13 +123,13 @@
             this.pictureStaticMenuItem,
             this.pictureDynamicMenuItem});
             this.pictureModeButton.Name = "pictureModeButton";
-            this.pictureModeButton.Size = new System.Drawing.Size(152, 22);
+            this.pictureModeButton.Size = new System.Drawing.Size(111, 22);
             this.pictureModeButton.Text = "Picture";
             // 
             // pictureStaticMenuItem
             // 
             this.pictureStaticMenuItem.Name = "pictureStaticMenuItem";
-            this.pictureStaticMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureStaticMenuItem.Size = new System.Drawing.Size(121, 22);
             this.pictureStaticMenuItem.Text = "Static";
             this.pictureStaticMenuItem.ToolTipText = "In static video mode, the captured image will not resize with the form. This is t" +
     "he default option";
@@ -135,7 +138,7 @@
             // pictureDynamicMenuItem
             // 
             this.pictureDynamicMenuItem.Name = "pictureDynamicMenuItem";
-            this.pictureDynamicMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pictureDynamicMenuItem.Size = new System.Drawing.Size(121, 22);
             this.pictureDynamicMenuItem.Text = "Dynamic";
             this.pictureDynamicMenuItem.ToolTipText = "In dynamic picture mode, the captured image will be stretched to fit the size of " +
     "the window";
@@ -147,7 +150,7 @@
             this.staticToolStripMenuItem1,
             this.dynamicToolStripMenuItem1});
             this.videoModeButton.Name = "videoModeButton";
-            this.videoModeButton.Size = new System.Drawing.Size(152, 22);
+            this.videoModeButton.Size = new System.Drawing.Size(111, 22);
             this.videoModeButton.Text = "Video";
             // 
             // staticToolStripMenuItem1
@@ -156,7 +159,7 @@
             this.videoStatic30FPSMenuItem,
             this.videoStatic60FPSMenuItem});
             this.staticToolStripMenuItem1.Name = "staticToolStripMenuItem1";
-            this.staticToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.staticToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
             this.staticToolStripMenuItem1.Text = "Static";
             this.staticToolStripMenuItem1.ToolTipText = "In static video mode, the captured video will not resize with the form";
             // 
@@ -180,7 +183,7 @@
             this.videoDynamic30FPSMenuItem,
             this.videoDynamic60FPSMenuItem});
             this.dynamicToolStripMenuItem1.Name = "dynamicToolStripMenuItem1";
-            this.dynamicToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.dynamicToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
             this.dynamicToolStripMenuItem1.Text = "Dynamic";
             this.dynamicToolStripMenuItem1.ToolTipText = "In dynamic video mode, the captured video will be stretched to fit the size of th" +
     "e window";
@@ -206,7 +209,9 @@
             this.toolStripMenuItem1,
             this.newToolStripMenuItem,
             this.cancelToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.testToolStripMenuItem,
+            this.test2ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(552, 24);
@@ -221,12 +226,29 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 27);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(552, 426);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            // 
+            // highlightTimer
+            // 
+            this.highlightTimer.Interval = 32;
+            this.highlightTimer.Tick += new System.EventHandler(this.highlightTimer_Tick);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.testToolStripMenuItem.Text = "test";
+            // 
+            // test2ToolStripMenuItem
+            // 
+            this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
+            this.test2ToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.test2ToolStripMenuItem.Text = "test2";
             // 
             // Form1
             // 
@@ -276,6 +298,9 @@
         private System.Windows.Forms.ToolStripMenuItem dynamicToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem videoDynamic30FPSMenuItem;
         private System.Windows.Forms.ToolStripMenuItem videoDynamic60FPSMenuItem;
+        private System.Windows.Forms.Timer highlightTimer;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem test2ToolStripMenuItem;
     }
 }
 
