@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-using System.Drawing;
 
 namespace testCamera
 {
@@ -41,6 +40,7 @@ namespace testCamera
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
             pictureBox1.Visible = false;
+            ControlsWindow cw = new ControlsWindow(this.Location.X, this.Location.Y);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -55,9 +55,13 @@ namespace testCamera
                 {
                     foreach (Screen x in Screen.AllScreens)
                     {
-                        if ((x.Bounds.Location.X < startPoint.X && (x.Bounds.Width + x.Bounds.Location.X) > startPoint.X))
+                        /*if ((x.Bounds.Location.X < startPoint.X && (x.Bounds.Width + x.Bounds.Location.X) > startPoint.X))
                         {
                             offset = x.Bounds.Width;
+                        }*/
+                        if(x.Bounds.X < 0)
+                        {
+                            offset += x.Bounds.Width;
                         }
                     }
                 }
@@ -126,14 +130,22 @@ namespace testCamera
             Screen farthestLeftScreen = Screen.PrimaryScreen;
             if(Screen.AllScreens.Count() > 1)
             {
-                for (int x = 0; x < Screen.AllScreens.Count(); x++)
+                foreach(Screen scr in Screen.AllScreens)
                 {
-                    this.Width += Screen.AllScreens[x].Bounds.Width + 10;//tempWidth += Screen.AllScreens[x].Bounds.Width;
+                    this.Width += scr.Bounds.Width + 10;
+                    if (scr.Bounds.Location.X < 0)
+                    {
+                        farthestLeftScreen = scr;
+                    }
+                }
+                /*for (int x = 0; x < Screen.AllScreens.Count(); x++)
+                {
+                    this.Width += Screen.AllScreens[x].Bounds.Width + 10;
                     if (Screen.AllScreens[x].Bounds.Location.X < 0)
                     {
                         farthestLeftScreen = Screen.AllScreens[x];
                     }
-                }
+                }*/
                 this.Location = farthestLeftScreen.Bounds.Location;
                 this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
             }
@@ -355,7 +367,7 @@ namespace testCamera
                 test2ToolStripMenuItem.Text = startPoint.ToString();
                 cancelToolStripMenuItem.Text = offset.ToString();
 
-                Rectangle ee = new Rectangle((Cursor.Position.X < startPoint.X + offset ? Cursor.Position.X : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+                Rectangle ee = new Rectangle((Cursor.Position.X + offset < startPoint.X + offset ? Cursor.Position.X + offset : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
 
                 using (Pen pen = new Pen(Color.Red, 1))
                 {
