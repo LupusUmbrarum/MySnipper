@@ -48,11 +48,11 @@
             this.videoDynamic30FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoDynamic60FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.highlightTimer = new System.Windows.Forms.Timer(this.components);
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -218,26 +218,6 @@
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 17;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 27);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(552, 426);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            // 
-            // highlightTimer
-            // 
-            this.highlightTimer.Interval = 32;
-            this.highlightTimer.Tick += new System.EventHandler(this.highlightTimer_Tick);
-            // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
@@ -249,6 +229,26 @@
             this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
             this.test2ToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.test2ToolStripMenuItem.Text = "test2";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 17;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(552, 426);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
+            // highlightTimer
+            // 
+            this.highlightTimer.Interval = 32;
+            this.highlightTimer.Tick += new System.EventHandler(this.highlightTimer_Tick);
             // 
             // Form1
             // 

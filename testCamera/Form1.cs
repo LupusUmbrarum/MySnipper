@@ -40,6 +40,7 @@ namespace testCamera
             leftClickDown = false;
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
+            pictureBox1.Visible = false;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -50,11 +51,14 @@ namespace testCamera
                 deltaPoint = MousePosition;
                 highlightTimer.Start();
                 offset = 0;
-                foreach (Screen x in Screen.AllScreens)
+                if(Screen.AllScreens.Count() > 1)
                 {
-                    if ((x.Bounds.Location.X < startPoint.X && (x.Bounds.Width + x.Bounds.Location.X) > startPoint.X))
+                    foreach (Screen x in Screen.AllScreens)
                     {
-                        offset = x.Bounds.Width;
+                        if ((x.Bounds.Location.X < startPoint.X && (x.Bounds.Width + x.Bounds.Location.X) > startPoint.X))
+                        {
+                            offset = x.Bounds.Width;
+                        }
                     }
                 }
             }
@@ -116,7 +120,7 @@ namespace testCamera
             //It also sets the opacity to 50%, so as to facilitate better image capturing
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.TopMost = true;
-            //this.Opacity = 0.5;
+            this.Opacity = 0.5;
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
@@ -179,7 +183,7 @@ namespace testCamera
                         //this is a bit of a hack. The form would be visible in pictures, but not videos if you tried to capture the wrong area.
                         //It never happened for video capture. This would be a case of "don't touch it, it works"
                         this.Location = new Point(10000, 10000);
-
+                        minimize();
                         bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                         using (Graphics g = Graphics.FromImage(bm))
                         {
@@ -350,8 +354,8 @@ namespace testCamera
                 testToolStripMenuItem.Text = Cursor.Position.ToString();
                 test2ToolStripMenuItem.Text = startPoint.ToString();
                 cancelToolStripMenuItem.Text = offset.ToString();
-                
-                Rectangle ee = new Rectangle((/*Cursor.Position.X < startPoint.X + offset ? */startPoint.X + offset/* : Cursor.Position.X*/), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+
+                Rectangle ee = new Rectangle((Cursor.Position.X < startPoint.X + offset ? Cursor.Position.X : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
 
                 using (Pen pen = new Pen(Color.Red, 1))
                 {
