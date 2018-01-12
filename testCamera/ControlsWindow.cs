@@ -21,8 +21,19 @@ namespace testCamera
             this.Location = new Point(x, y);
             this.Width = 250;
             this.Height = 63;
-            this.Visible = true;
+            this.Visible = false;
             this.parent = parent;
+            this.TopMost = true;
+        }
+
+        public void move(int x, int y)
+        {
+            this.Location = new Point(x, y);
+        }
+
+        public void placeOnTop()
+        {
+            this.TopMost = true;
         }
 
         private void initialize()
@@ -30,14 +41,17 @@ namespace testCamera
             menu = new MenuStrip();
             menu.BackColor = Color.FromName("GradientActiveCaption");
             cancel = new ToolStripMenuItem("Cancel");
+            cancel.Click += cancelClick;
             options = new ToolStripMenuItem("Capture Mode");
 
             picture = new ToolStripMenuItem("Picture");
 
             picture_static = new ToolStripMenuItem("Static");
+            picture_static.Click += pictureStatic_Click;
             picture.DropDownItems.Add(picture_static);
             
             picture_dynamic = new ToolStripMenuItem("Dynamic");
+            picture_dynamic.Click += pictureDynamic_Click;
             picture.DropDownItems.Add(picture_dynamic);
             
             options.DropDownItems.Add(picture);
@@ -47,8 +61,10 @@ namespace testCamera
             video_static = new ToolStripMenuItem("Static");
 
             video_static30 = new ToolStripMenuItem("30 fps");
+            video_static30.Click += videoStatic30FPS_Click;
             video_static.DropDownItems.Add(video_static30);
             video_static60 = new ToolStripMenuItem("60 fps");
+            video_static60.Click += videoStatic60FPS_Click;
             video_static.DropDownItems.Add(video_static60);
 
             video.DropDownItems.Add(video_static);
@@ -56,8 +72,10 @@ namespace testCamera
             video_dynamic = new ToolStripMenuItem("Dynamic");
 
             video_dynamic30 = new ToolStripMenuItem("30 fps");
+            video_dynamic30.Click += videoDynamic30FPS_Click;
             video_dynamic.DropDownItems.Add(video_dynamic30);
             video_dynamic60 = new ToolStripMenuItem("60 fps");
+            video_dynamic60.Click += videoDynamic60FPS_Click;
             video_dynamic.DropDownItems.Add(video_dynamic60);
 
             video.DropDownItems.Add(video_dynamic);
@@ -67,6 +85,45 @@ namespace testCamera
             menu.Items.Add(cancel);
             menu.Items.Add(options);
             this.Controls.Add(menu);
+        }
+
+        private void cancelClick(object sender, EventArgs e)
+        {
+            this.Hide();
+            parent.Location = parent.pointOfReturn;
+            parent.Size = parent.originalSize;
+            parent.minimize();
+            
+        }
+
+        private void pictureDynamic_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(0);
+        }
+
+        private void pictureStatic_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(1);
+        }
+
+        private void videoStatic30FPS_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(2);
+        }
+
+        private void videoStatic60FPS_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(3);
+        }
+
+        private void videoDynamic30FPS_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(4);
+        }
+
+        private void videoDynamic60FPS_Click(object sender, EventArgs e)
+        {
+            parent.changeCaptureMode(5);
         }
     }
 }

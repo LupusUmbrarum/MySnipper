@@ -24,11 +24,14 @@ namespace testCamera
     {
         int offset;
         Camera cam;
+        public Size originalSize;
         Point startPoint, endPoint, deltaPoint;
+        public Point pointOfReturn;
         bool isCapturing, useSelectedArea, leftClickDown;
         Bitmap bm;
         Rectangle rect, selectionBox;
         CaptureMode currentMode;
+        ControlsWindow cw;
 
         public Form1()
         {
@@ -40,7 +43,8 @@ namespace testCamera
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
             pictureBox1.Visible = false;
-            ControlsWindow cw = new ControlsWindow(this.Location.X, this.Location.Y);
+            cw = new ControlsWindow(this.Location.X, this.Location.Y, this);
+            originalSize = this.Size;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -73,6 +77,8 @@ namespace testCamera
         {
             if(isCapturing)
             {
+                cw.Hide();
+                cw.Visible = false;
                 endPoint = MousePosition;
                 isCapturing = false;
                 useSelectedArea = true;
@@ -81,9 +87,10 @@ namespace testCamera
                 pictureBox1.Visible = true;
                 pictureBox1.Size = new Size(rect.Width, rect.Height);
 
-                if(currentMode == CaptureMode.VIDEO_STATIC || currentMode == CaptureMode.PICTURE_STATIC)
+                this.Size = new Size((rect.Width < 275 ? 275 : rect.Width + rect.Width / 2), (rect.Height < 72 ? 144 : rect.Height + rect.Height / 2));
+
+                if (currentMode == CaptureMode.VIDEO_STATIC || currentMode == CaptureMode.PICTURE_STATIC)
                 {
-                    this.Size = new Size((rect.Width < 275 ? 275 : rect.Width + rect.Width / 2), (rect.Height < 72 ? 144 : rect.Height + rect.Height / 2));
                     positionPictureBox(0);
                 }
                 else
@@ -97,6 +104,7 @@ namespace testCamera
                 }
 
                 captureImage();
+
                 minimize();
 
                 this.Location = new Point(rect.X, rect.Y);
@@ -124,7 +132,11 @@ namespace testCamera
             //It also sets the opacity to 50%, so as to facilitate better image capturing
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.TopMost = true;
+            cw.TopMost = true;
+            cw.move(this.Location.X, this.Location.Y);
             this.Opacity = 0.5;
+            pointOfReturn = this.Location;
+            menuStrip1.Visible = false;
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
@@ -161,11 +173,12 @@ namespace testCamera
         /// <summary>
         /// This puts the form back in its default state
         /// </summary>
-        private void minimize()
+        public void minimize()
         {
             this.WindowState = FormWindowState.Normal;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Opacity = 1.0;
+            menuStrip1.Visible = true;
         }
 
         /// <summary>
@@ -192,9 +205,10 @@ namespace testCamera
                 case CaptureMode.PICTURE_DYNAMIC:
                     try
                     {
-                        //this is a bit of a hack. The form would be visible in pictures, but not videos if you tried to capture the wrong area.
+                        //this is a bit of a hack. The form would be visible in pictures if you tried to capture the wrong area.
                         //It never happened for video capture. This would be a case of "don't touch it, it works"
                         this.Location = new Point(10000, 10000);
+
                         minimize();
                         bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                         using (Graphics g = Graphics.FromImage(bm))
@@ -228,6 +242,7 @@ namespace testCamera
             maximizeForSelection();
             isCapturing = true;
             pictureBox1.Visible = false;
+            cw.Show();
         }
 
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -240,6 +255,19 @@ namespace testCamera
                 this.Opacity = 1.0;
             if (!pictureBox1.Visible)
                 pictureBox1.Visible = true;
+            positionPictureBox(0);
+            if(pointOfReturn == new Point(0,0))
+            {
+                pointOfReturn = this.Location;
+            }
+            else
+            {
+                this.Location = pointOfReturn;
+            }
+            
+            
+            this.Size = originalSize;
+            cw.Hide();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -274,74 +302,99 @@ namespace testCamera
 
         private void pictureDynamicMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.PICTURE_DYNAMIC;
-            pictureBox1.Dock = DockStyle.Fill;
-            positionPictureBox(1);
-            try
-            {
-                timer1.Stop();
-            }
-            catch (Exception ex) { }
+            changeCaptureMode(0);
         }
 
         private void pictureStaticMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.PICTURE_STATIC;
-            pictureBox1.Dock = DockStyle.None;
-            positionPictureBox(0);
-            try
-            {
-                timer1.Stop();
-            }
-            catch (Exception ex) { }
+            changeCaptureMode(1);
         }
 
         private void videoStatic30FPSMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.VIDEO_STATIC;
-            pictureBox1.Dock = DockStyle.None;
-            timer1.Interval = 32;
-            if(rect != null)
-            {
-                timer1.Start();
-            }
-            positionPictureBox(0);
+            changeCaptureMode(2);
         }
 
         private void videoStatic60FPSMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.VIDEO_STATIC;
-            pictureBox1.Dock = DockStyle.None;
-            timer1.Interval = 16;
-            if (rect != null)
-            {
-                timer1.Start();
-            }
-            positionPictureBox(0);
+            changeCaptureMode(3);
         }
 
         private void videoDynamic30FPSMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.VIDEO_DYNAMIC;
-            pictureBox1.Dock = DockStyle.Fill;
-            timer1.Interval = 32;
-            if (rect != null)
-            {
-                timer1.Start();
-            }
-            positionPictureBox(1);
+            changeCaptureMode(4);
         }
 
         private void videoDynamic60FPSMenuItem_Click(object sender, EventArgs e)
         {
-            currentMode = CaptureMode.VIDEO_DYNAMIC;
-            pictureBox1.Dock = DockStyle.Fill;
-            timer1.Interval = 16;
-            if (rect != null)
+            changeCaptureMode(5);
+        }
+
+        public void changeCaptureMode(int x)
+        {
+            switch(x)
             {
-                timer1.Start();
+                case 0:
+                    currentMode = CaptureMode.PICTURE_DYNAMIC;
+                    pictureBox1.Dock = DockStyle.Fill;
+                    positionPictureBox(1);
+                    try
+                    {
+                        timer1.Stop();
+                    }
+                    catch (Exception ex) { }
+                    break;
+                case 1:
+                    currentMode = CaptureMode.PICTURE_STATIC;
+                    pictureBox1.Dock = DockStyle.None;
+                    positionPictureBox(0);
+                    try
+                    {
+                        timer1.Stop();
+                    }
+                    catch (Exception ex) { }
+                    break;
+                case 2:
+                    currentMode = CaptureMode.VIDEO_STATIC;
+                    pictureBox1.Dock = DockStyle.None;
+                    timer1.Interval = 32;
+                    if (rect != null)
+                    {
+                        timer1.Start();
+                    }
+                    positionPictureBox(0);
+                    break;
+                case 3:
+                    currentMode = CaptureMode.VIDEO_STATIC;
+                    pictureBox1.Dock = DockStyle.None;
+                    timer1.Interval = 16;
+                    if (rect != null)
+                    {
+                        timer1.Start();
+                    }
+                    positionPictureBox(0);
+                    break;
+                case 4:
+                    currentMode = CaptureMode.VIDEO_DYNAMIC;
+                    pictureBox1.Dock = DockStyle.Fill;
+                    timer1.Interval = 32;
+                    if (rect != null)
+                    {
+                        timer1.Start();
+                    }
+                    positionPictureBox(1);
+                    break;
+                case 5:
+                    currentMode = CaptureMode.VIDEO_DYNAMIC;
+                    pictureBox1.Dock = DockStyle.Fill;
+                    timer1.Interval = 16;
+                    if (rect != null)
+                    {
+                        timer1.Start();
+                    }
+                    positionPictureBox(1);
+                    break;
             }
-            positionPictureBox(1);
         }
 
         private void positionPictureBox(int positionChoice)
