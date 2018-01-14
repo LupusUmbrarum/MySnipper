@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveButton = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsButton = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitButton = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureModeButton = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureStaticMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,8 +48,8 @@
             this.videoDynamic30FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoDynamic60FPSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.test2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beginCaptureMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.endCaptureMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.highlightTimer = new System.Windows.Forms.Timer(this.components);
@@ -101,13 +101,6 @@
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
-            // cancelToolStripMenuItem
-            // 
-            this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
-            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.cancelToolStripMenuItem.Text = "Cancel";
-            this.cancelToolStripMenuItem.Click += new System.EventHandler(this.cancelToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -123,7 +116,7 @@
             this.pictureStaticMenuItem,
             this.pictureDynamicMenuItem});
             this.pictureModeButton.Name = "pictureModeButton";
-            this.pictureModeButton.Size = new System.Drawing.Size(111, 22);
+            this.pictureModeButton.Size = new System.Drawing.Size(152, 22);
             this.pictureModeButton.Text = "Picture";
             // 
             // pictureStaticMenuItem
@@ -150,7 +143,7 @@
             this.staticToolStripMenuItem1,
             this.dynamicToolStripMenuItem1});
             this.videoModeButton.Name = "videoModeButton";
-            this.videoModeButton.Size = new System.Drawing.Size(111, 22);
+            this.videoModeButton.Size = new System.Drawing.Size(152, 22);
             this.videoModeButton.Text = "Video";
             // 
             // staticToolStripMenuItem1
@@ -208,27 +201,28 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.newToolStripMenuItem,
-            this.cancelToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.testToolStripMenuItem,
-            this.test2ToolStripMenuItem});
+            this.beginCaptureMenuItem,
+            this.endCaptureMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(552, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // testToolStripMenuItem
+            // beginCaptureMenuItem
             // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
-            this.testToolStripMenuItem.Text = "test";
+            this.beginCaptureMenuItem.Name = "beginCaptureMenuItem";
+            this.beginCaptureMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.beginCaptureMenuItem.Text = "Begin Capture";
+            this.beginCaptureMenuItem.Visible = false;
             // 
-            // test2ToolStripMenuItem
+            // endCaptureMenuItem
             // 
-            this.test2ToolStripMenuItem.Name = "test2ToolStripMenuItem";
-            this.test2ToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.test2ToolStripMenuItem.Text = "test2";
+            this.endCaptureMenuItem.Name = "endCaptureMenuItem";
+            this.endCaptureMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.endCaptureMenuItem.Text = "End Capture";
+            this.endCaptureMenuItem.Visible = false;
             // 
             // timer1
             // 
@@ -258,6 +252,7 @@
             this.ClientSize = new System.Drawing.Size(552, 450);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -265,7 +260,6 @@
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -283,7 +277,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem quitButton;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cancelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem pictureModeButton;
         private System.Windows.Forms.ToolStripMenuItem videoModeButton;
@@ -299,8 +292,8 @@
         private System.Windows.Forms.ToolStripMenuItem videoDynamic30FPSMenuItem;
         private System.Windows.Forms.ToolStripMenuItem videoDynamic60FPSMenuItem;
         private System.Windows.Forms.Timer highlightTimer;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem test2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem beginCaptureMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem endCaptureMenuItem;
     }
 }
 

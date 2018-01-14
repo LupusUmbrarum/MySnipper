@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace testCamera
 {
@@ -85,6 +86,8 @@ namespace testCamera
             menu.Items.Add(cancel);
             menu.Items.Add(options);
             this.Controls.Add(menu);
+
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
         }
 
         private void cancelClick(object sender, EventArgs e)
@@ -93,7 +96,6 @@ namespace testCamera
             parent.Location = parent.pointOfReturn;
             parent.Size = parent.originalSize;
             parent.minimize();
-            
         }
 
         private void pictureDynamic_Click(object sender, EventArgs e)
@@ -124,6 +126,32 @@ namespace testCamera
         private void videoDynamic60FPS_Click(object sender, EventArgs e)
         {
             parent.changeCaptureMode(5);
+        }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsWindow));
+            this.SuspendLayout();
+            // 
+            // ControlsWindow
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "ControlsWindow";
+            this.ResumeLayout(false);
+
+        }
+
+        // Had to override the formClosing event, it wasn't firing on its own
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+            parent.Location = parent.pointOfReturn;
+            parent.Size = parent.originalSize;
+            parent.minimize();
+            base.OnClosing(e);
         }
     }
 }

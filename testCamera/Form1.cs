@@ -27,7 +27,8 @@ namespace testCamera
         public Size originalSize;
         Point startPoint, endPoint, deltaPoint;
         public Point pointOfReturn;
-        bool isCapturing, useSelectedArea, leftClickDown;
+        bool useSelectedArea, leftClickDown;
+        public bool isCapturing;
         Bitmap bm;
         Rectangle rect, selectionBox;
         CaptureMode currentMode;
@@ -36,15 +37,14 @@ namespace testCamera
         public Form1()
         {
             InitializeComponent();
-            cam = new Camera(0, 0, this.ClientSize.Width, this.ClientSize.Height);
             isCapturing = false;
             useSelectedArea = false;
             leftClickDown = false;
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
             pictureBox1.Visible = false;
-            cw = new ControlsWindow(this.Location.X, this.Location.Y, this);
             originalSize = this.Size;
+            cw = new ControlsWindow(this.Location.X, this.Location.Y, this);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -77,8 +77,8 @@ namespace testCamera
         {
             if(isCapturing)
             {
+                cw.move(Screen.PrimaryScreen.Bounds.Width * 10, Screen.PrimaryScreen.Bounds.Height * 10);
                 cw.Hide();
-                cw.Visible = false;
                 endPoint = MousePosition;
                 isCapturing = false;
                 useSelectedArea = true;
@@ -87,7 +87,7 @@ namespace testCamera
                 pictureBox1.Visible = true;
                 pictureBox1.Size = new Size(rect.Width, rect.Height);
 
-                this.Size = new Size((rect.Width < 275 ? 275 : rect.Width + rect.Width / 2), (rect.Height < 72 ? 144 : rect.Height + rect.Height / 2));
+                this.Size = new Size((rect.Width < 375 ? 375 : rect.Width + rect.Width / 2), (rect.Height < 72 ? 144 : rect.Height + rect.Height / 2));
 
                 if (currentMode == CaptureMode.VIDEO_STATIC || currentMode == CaptureMode.PICTURE_STATIC)
                 {
@@ -115,14 +115,6 @@ namespace testCamera
             leftClickDown = false;
         }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isCapturing && leftClickDown)
-            {
-                
-            }
-        }
-
         /// <summary>
         /// Maximize the form to cover all screens, including the taskbar, in order to take a picture
         /// </summary>
@@ -131,12 +123,10 @@ namespace testCamera
             //This sets up the form to be maximized. It removes the border, and makes the form overlap all things, even the taskbar
             //It also sets the opacity to 50%, so as to facilitate better image capturing
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.TopMost = true;
-            cw.TopMost = true;
-            cw.move(this.Location.X, this.Location.Y);
             this.Opacity = 0.5;
             pointOfReturn = this.Location;
             menuStrip1.Visible = false;
+            cw.Show();
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
@@ -150,24 +140,27 @@ namespace testCamera
                         farthestLeftScreen = scr;
                     }
                 }
-                /*for (int x = 0; x < Screen.AllScreens.Count(); x++)
-                {
-                    this.Width += Screen.AllScreens[x].Bounds.Width + 10;
-                    if (Screen.AllScreens[x].Bounds.Location.X < 0)
-                    {
-                        farthestLeftScreen = Screen.AllScreens[x];
-                    }
-                }*/
+
                 this.Location = farthestLeftScreen.Bounds.Location;
                 this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
             }
             else
             {
+                if(this.WindowState == FormWindowState.Maximized)
+                {
+                    this.WindowState = FormWindowState.Normal;
+                }
                 this.WindowState = FormWindowState.Maximized;
                 this.Location = new Point(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             }
+
+            this.TopMost = true;
             
             useSelectedArea = true;
+
+            cw.move(this.pointOfReturn.X, this.pointOfReturn.Y);
+
+            cw.TopMost = true;
         }
 
         /// <summary>
@@ -179,6 +172,7 @@ namespace testCamera
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Opacity = 1.0;
             menuStrip1.Visible = true;
+            this.isCapturing = false;
         }
 
         /// <summary>
@@ -239,35 +233,9 @@ namespace testCamera
             catch (Exception ex) { }
             bm = null;
             this.BackgroundImage = null;
-            maximizeForSelection();
             isCapturing = true;
             pictureBox1.Visible = false;
-            cw.Show();
-        }
-
-        private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if(this.WindowState != FormWindowState.Normal)
-                this.WindowState = FormWindowState.Normal;
-            if(this.FormBorderStyle != System.Windows.Forms.FormBorderStyle.Sizable)
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            if (this.Opacity < 1.0)
-                this.Opacity = 1.0;
-            if (!pictureBox1.Visible)
-                pictureBox1.Visible = true;
-            positionPictureBox(0);
-            if(pointOfReturn == new Point(0,0))
-            {
-                pointOfReturn = this.Location;
-            }
-            else
-            {
-                this.Location = pointOfReturn;
-            }
-            
-            
-            this.Size = originalSize;
-            cw.Hide();
+            maximizeForSelection();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -330,6 +298,19 @@ namespace testCamera
             changeCaptureMode(5);
         }
 
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            if (leftClickDown && isCapturing)
+            {
+                Rectangle ee = new Rectangle((Cursor.Position.X + offset < startPoint.X + offset ? Cursor.Position.X + offset : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+
+                using (Pen pen = new Pen(Color.Red, 1))
+                {
+                    e.Graphics.DrawRectangle(pen, ee);
+                }
+            }
+        }
+
         public void changeCaptureMode(int x)
         {
             switch(x)
@@ -343,6 +324,7 @@ namespace testCamera
                         timer1.Stop();
                     }
                     catch (Exception ex) { }
+                    hideCaptureControls();
                     break;
                 case 1:
                     currentMode = CaptureMode.PICTURE_STATIC;
@@ -353,6 +335,7 @@ namespace testCamera
                         timer1.Stop();
                     }
                     catch (Exception ex) { }
+                    hideCaptureControls();
                     break;
                 case 2:
                     currentMode = CaptureMode.VIDEO_STATIC;
@@ -363,6 +346,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(0);
+                    showCaptureControls();
                     break;
                 case 3:
                     currentMode = CaptureMode.VIDEO_STATIC;
@@ -373,6 +357,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(0);
+                    showCaptureControls();
                     break;
                 case 4:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -383,6 +368,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(1);
+                    showCaptureControls();
                     break;
                 case 5:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -393,8 +379,21 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(1);
+                    showCaptureControls();
                     break;
             }
+        }
+
+        private void hideCaptureControls()
+        {
+            beginCaptureMenuItem.Visible = false;
+            endCaptureMenuItem.Visible = false;
+        }
+
+        private void showCaptureControls()
+        {
+            beginCaptureMenuItem.Visible = true;
+            endCaptureMenuItem.Visible = true;
         }
 
         private void positionPictureBox(int positionChoice)
@@ -411,23 +410,5 @@ namespace testCamera
                     break;
             }
         }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            if (leftClickDown && isCapturing)
-            {
-                testToolStripMenuItem.Text = Cursor.Position.ToString();
-                test2ToolStripMenuItem.Text = startPoint.ToString();
-                cancelToolStripMenuItem.Text = offset.ToString();
-
-                Rectangle ee = new Rectangle((Cursor.Position.X + offset < startPoint.X + offset ? Cursor.Position.X + offset : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
-
-                using (Pen pen = new Pen(Color.Red, 1))
-                {
-                    e.Graphics.DrawRectangle(pen, ee);
-                }
-            }
-        }
-
     }
 }

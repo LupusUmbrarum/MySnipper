@@ -1,0 +1,5 @@
+1. Add an offSetY just in case somebody has multiple screens placed vertically.
+
+2. Add a copy button and ctrl+c functionality to copy the latest captured image to the clipboard.
+
+3. Only start recording video on begin capture, stop on end capture
