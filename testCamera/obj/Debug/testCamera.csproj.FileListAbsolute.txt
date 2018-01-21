@@ -35,3 +35,4 @@ A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Form1.resources
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Properties.Resources.resources
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.GenerateResource.Cache
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources
+A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources

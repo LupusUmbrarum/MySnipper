@@ -22,12 +22,13 @@ namespace testCamera
 
     public partial class Form1 : Form
     {
-        int offset;
+        SaveFileDialog sfd;
+        int offsetX, offsetY;
         Camera cam;
         public Size originalSize;
         Point startPoint, endPoint, deltaPoint;
         public Point pointOfReturn;
-        bool useSelectedArea, leftClickDown;
+        bool useSelectedArea, leftClickDown, isCtrlDown, isCDown, isSDown;
         public bool isCapturing;
         Bitmap bm;
         Rectangle rect, selectionBox;
@@ -40,11 +41,16 @@ namespace testCamera
             isCapturing = false;
             useSelectedArea = false;
             leftClickDown = false;
+            isCtrlDown = false;
+            isCDown = false;
+            isSDown = false;
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
             pictureBox1.Visible = false;
             originalSize = this.Size;
             cw = new ControlsWindow(this.Location.X, this.Location.Y, this);
+            saveAsButton.Enabled = false;
+            copyToolStripMenuItem.Visible = false;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -54,7 +60,7 @@ namespace testCamera
                 startPoint = MousePosition;
                 deltaPoint = MousePosition;
                 highlightTimer.Start();
-                offset = 0;
+                offsetX = 0;
                 if(Screen.AllScreens.Count() > 1)
                 {
                     foreach (Screen x in Screen.AllScreens)
@@ -65,7 +71,7 @@ namespace testCamera
                         }*/
                         if(x.Bounds.X < 0)
                         {
-                            offset += x.Bounds.Width;
+                            offsetX += x.Bounds.Width;
                         }
                     }
                 }
@@ -110,6 +116,8 @@ namespace testCamera
                 this.Location = new Point(rect.X, rect.Y);
                 this.TopMost = false;
                 highlightTimer.Stop();
+                saveAsButton.Enabled = true;
+                copyToolStripMenuItem.Visible = true;
             }
             
             leftClickDown = false;
@@ -238,15 +246,17 @@ namespace testCamera
             maximizeForSelection();
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);//gets the folder path to pictures
-            bm.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)+"\\test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-        }
-
         private void saveAsButton_Click(object sender, EventArgs e)
         {
+            initSaveFileDialog();
+            
+            //Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);//gets the folder path to pictures
+            //bm.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)+"\\test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
 
+        private void Sfd_FileOk(object sender, CancelEventArgs e)
+        {
+            saveImage();
         }
 
         private void quitButton_Click(object sender, EventArgs e)
@@ -298,16 +308,120 @@ namespace testCamera
             changeCaptureMode(5);
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.C:
+                    isCDown = true;
+                    break;
+                case Keys.ControlKey:
+                    isCtrlDown = true;
+                    break;
+                case Keys.S:
+                    isSDown = true;
+                    break;
+            }
+
+            if(isCDown && isCtrlDown)
+            {
+                copyImage();
+            }
+
+            if(isSDown && isCtrlDown)
+            {
+                if (bm != null)
+                {
+                    initSaveFileDialog();
+                }
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.C:
+                    isCDown = false;
+                    break;
+                case Keys.ControlKey:
+                    isCtrlDown = false;
+                    break;
+                case Keys.S:
+                    isSDown = false;
+                    break;
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyImage();
+        }
+
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             if (leftClickDown && isCapturing)
             {
-                Rectangle ee = new Rectangle((Cursor.Position.X + offset < startPoint.X + offset ? Cursor.Position.X + offset : startPoint.X + offset), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
+                Rectangle ee = new Rectangle((Cursor.Position.X + offsetX < startPoint.X + offsetX ? Cursor.Position.X + offsetX : startPoint.X + offsetX), (Cursor.Position.Y > startPoint.Y ? startPoint.Y : Cursor.Position.Y), Math.Abs(Cursor.Position.X - startPoint.X), Math.Abs(Cursor.Position.Y - startPoint.Y));
 
                 using (Pen pen = new Pen(Color.Red, 1))
                 {
                     e.Graphics.DrawRectangle(pen, ee);
                 }
+            }
+        }
+
+        private void initSaveFileDialog()
+        {
+            if (sfd != null)
+            {
+                sfd.ShowDialog();
+            }
+            else
+            {
+                sfd = new SaveFileDialog();
+                sfd.FileOk += Sfd_FileOk;
+                sfd.Filter = "Portable Network Graphic file (PNG) | *.PNG | JPEG file | *.JPG";
+                sfd.FilterIndex = 2;
+                sfd.RestoreDirectory = true;
+                sfd.ShowDialog();
+            }
+        }
+
+        private void saveImage()
+        {
+            switch (sfd.FilterIndex)
+            {
+                case 1:
+                    bm.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                    break;
+                case 2:
+                    bm.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    break;
+            }
+        }
+
+        private void copyImage()
+        {
+            switch (currentMode)
+            {
+                case CaptureMode.PICTURE_STATIC:
+                    try
+                    {
+                        Clipboard.SetImage((Image)bm);
+                    }
+                    catch (Exception ex) { }
+                    break;
+                case CaptureMode.PICTURE_DYNAMIC:
+                    try
+                    {
+                        using (Bitmap tempBtm = new Bitmap(bm, pictureBox1.Size))
+                        {
+                            Clipboard.SetImage((Image)tempBtm);
+                        }
+                    }
+                    catch (Exception ex) { }
+                    break;
             }
         }
 
@@ -324,7 +438,7 @@ namespace testCamera
                         timer1.Stop();
                     }
                     catch (Exception ex) { }
-                    hideCaptureControls();
+                    //hideCaptureControls();
                     break;
                 case 1:
                     currentMode = CaptureMode.PICTURE_STATIC;
@@ -335,7 +449,7 @@ namespace testCamera
                         timer1.Stop();
                     }
                     catch (Exception ex) { }
-                    hideCaptureControls();
+                    //hideCaptureControls();
                     break;
                 case 2:
                     currentMode = CaptureMode.VIDEO_STATIC;
@@ -346,7 +460,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(0);
-                    showCaptureControls();
+                    //showCaptureControls();
                     break;
                 case 3:
                     currentMode = CaptureMode.VIDEO_STATIC;
@@ -357,7 +471,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(0);
-                    showCaptureControls();
+                    //showCaptureControls();
                     break;
                 case 4:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -368,7 +482,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(1);
-                    showCaptureControls();
+                    //showCaptureControls();
                     break;
                 case 5:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -379,7 +493,7 @@ namespace testCamera
                         timer1.Start();
                     }
                     positionPictureBox(1);
-                    showCaptureControls();
+                    //showCaptureControls();
                     break;
             }
         }
@@ -409,6 +523,12 @@ namespace testCamera
                     pictureBox1.Location = new Point(0, 24);
                     break;
             }
+        }
+
+        public void disableSaveAndCopy()
+        {
+            saveAsButton.Enabled = false;
+            copyToolStripMenuItem.Visible = false;
         }
     }
 }

@@ -95,6 +95,7 @@ namespace testCamera
             this.Hide();
             parent.Location = parent.pointOfReturn;
             parent.Size = parent.originalSize;
+            parent.disableSaveAndCopy();
             parent.minimize();
         }
 
