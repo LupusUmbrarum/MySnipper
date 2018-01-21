@@ -116,7 +116,10 @@ namespace testCamera
                 this.Location = new Point(rect.X, rect.Y);
                 this.TopMost = false;
                 highlightTimer.Stop();
-                saveAsButton.Enabled = true;
+                if(currentMode == CaptureMode.PICTURE_DYNAMIC || currentMode == CaptureMode.PICTURE_STATIC)
+                {
+                    enableSaveAndCopy();
+                }
                 copyToolStripMenuItem.Visible = true;
             }
             
@@ -461,6 +464,7 @@ namespace testCamera
                     }
                     positionPictureBox(0);
                     //showCaptureControls();
+                    disableSaveAndCopy();
                     break;
                 case 3:
                     currentMode = CaptureMode.VIDEO_STATIC;
@@ -472,6 +476,7 @@ namespace testCamera
                     }
                     positionPictureBox(0);
                     //showCaptureControls();
+                    disableSaveAndCopy();
                     break;
                 case 4:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -483,6 +488,7 @@ namespace testCamera
                     }
                     positionPictureBox(1);
                     //showCaptureControls();
+                    disableSaveAndCopy();
                     break;
                 case 5:
                     currentMode = CaptureMode.VIDEO_DYNAMIC;
@@ -494,6 +500,7 @@ namespace testCamera
                     }
                     positionPictureBox(1);
                     //showCaptureControls();
+                    disableSaveAndCopy();
                     break;
             }
         }
@@ -529,6 +536,12 @@ namespace testCamera
         {
             saveAsButton.Enabled = false;
             copyToolStripMenuItem.Visible = false;
+        }
+
+        public void enableSaveAndCopy()
+        {
+            saveAsButton.Enabled = true;
+            copyToolStripMenuItem.Visible = true;
         }
     }
 }
