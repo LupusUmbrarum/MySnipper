@@ -27,6 +27,17 @@ namespace testCamera
             this.TopMost = true;
         }
 
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsWindow));
+            this.SuspendLayout();
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "ControlsWindow";
+            this.ResumeLayout(false);
+        }
+
         public void move(int x, int y)
         {
             this.Location = new Point(x, y);
@@ -39,28 +50,31 @@ namespace testCamera
 
         private void initialize()
         {
+            //create menustrip
             menu = new MenuStrip();
             menu.BackColor = Color.FromName("GradientActiveCaption");
+            //create cancel button
             cancel = new ToolStripMenuItem("Cancel");
             cancel.Click += cancelClick;
+            //create capturemode/options button
             options = new ToolStripMenuItem("Capture Mode");
-
+            //create first base option
             picture = new ToolStripMenuItem("Picture");
-
+            //create and add the static picture option
             picture_static = new ToolStripMenuItem("Static");
             picture_static.Click += pictureStatic_Click;
             picture.DropDownItems.Add(picture_static);
-            
+            //create and add dynamic picture option
             picture_dynamic = new ToolStripMenuItem("Dynamic");
             picture_dynamic.Click += pictureDynamic_Click;
             picture.DropDownItems.Add(picture_dynamic);
-            
+            //add the first base option
             options.DropDownItems.Add(picture);
-
+            //create the second base option
             video = new ToolStripMenuItem("Video");
-
+            //create the static video option
             video_static = new ToolStripMenuItem("Static");
-
+            //create and add the 30fps and 60fps video options
             video_static30 = new ToolStripMenuItem("30 fps");
             video_static30.Click += videoStatic30FPS_Click;
             video_static.DropDownItems.Add(video_static30);
@@ -80,9 +94,9 @@ namespace testCamera
             video_dynamic.DropDownItems.Add(video_dynamic60);
 
             video.DropDownItems.Add(video_dynamic);
-
+            //add video options
             options.DropDownItems.Add(video);
-
+            //add all of the options, then add the menustrip
             menu.Items.Add(cancel);
             menu.Items.Add(options);
             this.Controls.Add(menu);
@@ -92,6 +106,7 @@ namespace testCamera
 
         private void cancelClick(object sender, EventArgs e)
         {
+            //return the application to default state
             this.Hide();
             parent.Location = parent.pointOfReturn;
             parent.Size = parent.originalSize;
@@ -129,22 +144,7 @@ namespace testCamera
             parent.changeCaptureMode(5);
         }
 
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsWindow));
-            this.SuspendLayout();
-            // 
-            // ControlsWindow
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ControlsWindow";
-            this.ResumeLayout(false);
-
-        }
-
-        // Had to override the formClosing event, it wasn't firing on its own
+        //had to override the formClosing event, it wasn't firing on its own
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;

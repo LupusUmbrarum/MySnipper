@@ -1,3 +1,0 @@
-1. Fully implement offsetY
-
-2. Institute a "you captured an image, are you sure you want to leave?" dialog
