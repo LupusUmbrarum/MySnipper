@@ -1,0 +1,5 @@
+1. finish fully implementing offsetY
+
+2. make the maximized form handle an odd pattern of screens such as :  []
+	 [][][]
+this includes ensuring that the ControlsWindow doesn't appear in the blank space in the top-left corner

@@ -334,19 +334,30 @@ namespace testCamera
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
+            Point point = new Point(0, 0);
             //this checks to see if that assumption is correct
             if (Screen.AllScreens.Count() > 1)
             {
                 foreach (Screen scr in Screen.AllScreens)
                 {
+                    //add width of the screen + 10 to ensure total width coverage
                     this.Width += scr.Bounds.Width + 10;
-                    if (scr.Bounds.Location.X < 0)
+                    //add height of the screen + 10 to ensure total coverage
+                    this.Height += scr.Bounds.Height + 10;
+                    //find the left-most screen 
+                    if (scr.Bounds.Location.X < farthestLeftScreen.Bounds.Location.X)
                     {
-                        farthestLeftScreen = scr;
+                        //()farthestLeftScreen = scr;
+                        point.X = scr.Bounds.Location.X;
+                    }
+                    if(scr.Bounds.Location.Y < point.Y)
+                    {
+                        point.Y = scr.Bounds.Location.Y;
                     }
                 }
-                this.Location = farthestLeftScreen.Bounds.Location;
-                this.Height = Screen.PrimaryScreen.Bounds.Height + 20;
+
+                //()this.Location = farthestLeftScreen.Bounds.Location;
+                this.Location = point;
             }
             else
             {
