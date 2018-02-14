@@ -28,7 +28,7 @@ namespace testCamera
         public Size originalSize;
         //startPoint and endPoint are used for determining the bitmap's capture region
         //deltaPoint is used to determine when to refresh the form in order to paint the selection box
-        private Point startPoint, endPoint, deltaPoint;
+        private Point startPoint, endPoint, deltaPoint, hidePoint;
         public Point pointOfReturn;
         private bool leftClickDown, isCtrlDown, isCDown, isSDown, isCapturing, imageIsSaved;
         private Bitmap bm;
@@ -334,7 +334,7 @@ namespace testCamera
 
             //this assumes the screens are all aligned horizontally, and there are no screens located in different vertical positions
             Screen farthestLeftScreen = Screen.PrimaryScreen;
-            Point point = new Point(0, 0);
+            hidePoint = new Point(0, 0);
             //this checks to see if that assumption is correct
             if (Screen.AllScreens.Count() > 1)
             {
@@ -347,17 +347,16 @@ namespace testCamera
                     //find the left-most screen 
                     if (scr.Bounds.Location.X < farthestLeftScreen.Bounds.Location.X)
                     {
-                        //()farthestLeftScreen = scr;
-                        point.X = scr.Bounds.Location.X;
+                        hidePoint.X = scr.Bounds.Location.X;
                     }
-                    if(scr.Bounds.Location.Y < point.Y)
+                    //find the top-most screen
+                    if(scr.Bounds.Location.Y < hidePoint.Y)
                     {
-                        point.Y = scr.Bounds.Location.Y;
+                        hidePoint.Y = scr.Bounds.Location.Y;
                     }
                 }
-
-                //()this.Location = farthestLeftScreen.Bounds.Location;
-                this.Location = point;
+                
+                this.Location = hidePoint;
             }
             else
             {
@@ -399,7 +398,7 @@ namespace testCamera
                 //this is a bit of a hack. The form would be visible in pictures if you tried to capture the wrong area.
                 //It never happened for video capture. This would be a case of "don't touch it, it works"
                 if(currentMode == CaptureMode.PICTURE_DYNAMIC || currentMode == CaptureMode.PICTURE_STATIC)
-                    //this.Location = new Point(10000, 10000);
+                    this.Location = new Point(hidePoint.X-this.Bounds.X-10, hidePoint.Y-this.Bounds.Y-10);
 
                 minimize();
                 using (Graphics g = Graphics.FromImage(bm))

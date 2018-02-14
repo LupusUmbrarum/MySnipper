@@ -1,12 +1,12 @@
-A:\GitHub\MySnipper\testCamera\bin\Release\testCamera.exe.config
 A:\GitHub\MySnipper\testCamera\obj\Release\Interop.InteropExtensionLib.dll
 A:\GitHub\MySnipper\testCamera\obj\Release\Interop.SystemMonitor.dll
 A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.csproj.ResolveComReference.cache
-A:\GitHub\MySnipper\testCamera\bin\Release\testCamera.exe
-A:\GitHub\MySnipper\testCamera\bin\Release\testCamera.pdb
 A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.ControlsWindow.resources
 A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.Form1.resources
 A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.Properties.Resources.resources
 A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.csproj.GenerateResource.Cache
-A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.exe
-A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.pdb
+A:\GitHub\MySnipper\testCamera\bin\Release\MySnipper.exe.config
+A:\GitHub\MySnipper\testCamera\bin\Release\MySnipper.exe
+A:\GitHub\MySnipper\testCamera\bin\Release\MySnipper.pdb
+A:\GitHub\MySnipper\testCamera\obj\Release\MySnipper.exe
+A:\GitHub\MySnipper\testCamera\obj\Release\MySnipper.pdb

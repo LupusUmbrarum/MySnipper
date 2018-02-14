@@ -36,3 +36,4 @@ A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Properties.Resources.resourc
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.GenerateResource.Cache
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources
+A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.exe.config
