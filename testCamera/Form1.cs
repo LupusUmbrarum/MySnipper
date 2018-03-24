@@ -397,8 +397,19 @@ namespace testCamera
             {
                 //this is a bit of a hack. The form would be visible in pictures if you tried to capture the wrong area.
                 //It never happened for video capture. This would be a case of "don't touch it, it works"
+                
                 if(currentMode == CaptureMode.PICTURE_DYNAMIC || currentMode == CaptureMode.PICTURE_STATIC)
-                    this.Location = new Point(hidePoint.X-this.Bounds.X-10, hidePoint.Y-this.Bounds.Y-10);
+                {
+                    int width = 0, height = 0;
+                    for (int x = 0; x < Screen.AllScreens.Count(); x++)
+                    {
+                        width += Screen.AllScreens[x].Bounds.Width;
+                        height += Screen.AllScreens[x].Bounds.Height;
+                    }
+                    width *= 2;
+                    height *= 2;
+                    this.Location = new Point(width + 10, height + 10);
+                }
 
                 minimize();
                 using (Graphics g = Graphics.FromImage(bm))

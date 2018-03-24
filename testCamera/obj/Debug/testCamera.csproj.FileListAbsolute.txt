@@ -22,14 +22,9 @@ C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.cs
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Form1.resources
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Properties.Resources.resources
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.GenerateResource.Cache
-A:\GitHub\MySnipper\testCamera\bin\Debug\testCamera.exe.config
 A:\GitHub\MySnipper\testCamera\obj\Debug\Interop.InteropExtensionLib.dll
 A:\GitHub\MySnipper\testCamera\obj\Debug\Interop.SystemMonitor.dll
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.ResolveComReference.cache
-A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.exe
-A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.pdb
-A:\GitHub\MySnipper\testCamera\bin\Debug\testCamera.exe
-A:\GitHub\MySnipper\testCamera\bin\Debug\testCamera.pdb
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csprojResolveAssemblyReference.cache
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Form1.resources
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.Properties.Resources.resources
@@ -37,3 +32,7 @@ A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.GenerateResource.Cach
 C:\Users\lupus_000\Documents\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources
 A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.ControlsWindow.resources
 A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.exe.config
+A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.exe
+A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.pdb
+A:\GitHub\MySnipper\testCamera\obj\Debug\MySnipper.exe
+A:\GitHub\MySnipper\testCamera\obj\Debug\MySnipper.pdb
