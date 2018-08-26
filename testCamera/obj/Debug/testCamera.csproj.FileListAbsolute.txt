@@ -36,3 +36,4 @@ A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.exe
 A:\GitHub\MySnipper\testCamera\bin\Debug\MySnipper.pdb
 A:\GitHub\MySnipper\testCamera\obj\Debug\MySnipper.exe
 A:\GitHub\MySnipper\testCamera\obj\Debug\MySnipper.pdb
+A:\GitHub\MySnipper\testCamera\obj\Debug\testCamera.csproj.CoreCompileInputs.cache

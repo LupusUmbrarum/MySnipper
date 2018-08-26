@@ -373,6 +373,7 @@ namespace testCamera
             cw.move(this.pointOfReturn.X, this.pointOfReturn.Y);
 
             cw.TopMost = true;
+            MessageBox.Show(this.WindowState.ToString());
         }
 
         /// <summary>
