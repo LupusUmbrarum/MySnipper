@@ -32,7 +32,7 @@ namespace testCamera
         public Point pointOfReturn;
         private bool leftClickDown, isCtrlDown, isCDown, isSDown, isCapturing, imageIsSaved;
         private Bitmap bm;
-        private Rectangle rect;
+        private Rectangle rect = new Rectangle(0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         CaptureMode currentMode;
         private ControlsWindow cw;
 
@@ -47,6 +47,8 @@ namespace testCamera
             //default mode
             currentMode = CaptureMode.PICTURE_STATIC;
             originalSize = this.Size;
+
+            menuStrip1.BringToFront();
 
             //initialize the ControlsWindow for later use
             cw = new ControlsWindow(this.Location.X, this.Location.Y, this);
@@ -373,7 +375,7 @@ namespace testCamera
             cw.move(this.pointOfReturn.X, this.pointOfReturn.Y);
 
             cw.TopMost = true;
-            MessageBox.Show(this.WindowState.ToString());
+            //MessageBox.Show(this.WindowState.ToString());
         }
 
         /// <summary>
@@ -381,7 +383,11 @@ namespace testCamera
         /// </summary>
         public void minimize()
         {
-            this.WindowState = FormWindowState.Normal;
+            if(this.WindowState != FormWindowState.Normal && this.WindowState != FormWindowState.Maximized && this.WindowState != FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Opacity = 1.0;
             menuStrip1.Visible = true;
@@ -394,6 +400,7 @@ namespace testCamera
         private void captureImage()
         {
             bm = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+
             try
             {
                 //this is a bit of a hack. The form would be visible in pictures if you tried to capture the wrong area.
