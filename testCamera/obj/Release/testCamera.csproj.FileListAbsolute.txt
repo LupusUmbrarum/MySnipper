@@ -10,3 +10,5 @@ A:\GitHub\MySnipper\testCamera\bin\Release\MySnipper.exe
 A:\GitHub\MySnipper\testCamera\bin\Release\MySnipper.pdb
 A:\GitHub\MySnipper\testCamera\obj\Release\MySnipper.exe
 A:\GitHub\MySnipper\testCamera\obj\Release\MySnipper.pdb
+A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.csprojResolveAssemblyReference.cache
+A:\GitHub\MySnipper\testCamera\obj\Release\testCamera.csproj.CoreCompileInputs.cache
